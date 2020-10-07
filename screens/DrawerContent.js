@@ -30,12 +30,12 @@ const mapStateToProps = (state) => {
 export function DrawerContent(props) {
     //connect(mapStateToProps)(DrawerContent);
     
-    connect(mapStateToProps)(DrawerContent);
+   // connect(mapStateToProps)(DrawerContent);
    // console.log("prop1 " ,prop.infos);
     //console.log("prop2", props.infos);
     //const wan = props.infos["firstname"]  ;
     const paperTheme = useTheme();
-    const wan = "JJJJJJJ";
+    const wan = props.infos;
     const { signOut, toggleTheme } = React.useContext(AuthContext);
 
     return(

@@ -17,11 +17,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
 
 import { AuthContext } from '../components/context';
-
-import Users from '../model/users';
-import Users2 from '../model/users2';
 import { connect } from 'react-redux';
-import { addInfo } from '../src/actions/infos';
+import { addInfo,deleteInfo } from '../src/actions/infos';
 
 
 const SignInScreen  = (props,{navigation})  => { //extends componenet add
@@ -134,7 +131,7 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
                 const { statusCode, data1,xauth } = res;
                 console.log("statusCode ",statusCode);
                 //stscode = statusCode;
-                
+                props.delete();
                 if (statusCode == 200)
                 {
                 console.log("data",data1);
@@ -251,7 +248,7 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
             </Animatable.View>
             }
             
-            <Text> {props.infos.username} </Text>
+          
             <TouchableOpacity>
                 <Text style={{color: '#009387', marginTop:15}}>Forgot password?</Text>
             </TouchableOpacity>
@@ -299,6 +296,7 @@ const mapStateToProps = (state) => {
   
   const mapDispatchToProps = (dispatch) => {
     return {
+     delete: () => dispatch(deleteInfo()),
       add: (id1,email1,username1,firstname1,secondname1,
         password1, userToken1) => dispatch(addInfo(id1,email1,username1,firstname1,secondname1,
             password1, userToken1))

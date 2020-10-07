@@ -112,6 +112,7 @@ const App = (props) => {
       // setUserToken('fgkj');
       // setIsLoading(false);
       console.log("USERRRRRRR", UserT);
+      console.log(props.infos);
       const userToken = String(UserT);
       const userName = UserN;
       
@@ -122,6 +123,7 @@ const App = (props) => {
       }
       // console.log('user token: ', userToken);
       dispatch({ type: 'LOGIN', id: userName, token: userToken });
+      
     },
     signOut: async() => {
       // setUserToken(null);
@@ -130,7 +132,7 @@ const App = (props) => {
       try {
         await AsyncStorage.removeItem('userToken');
         console.log("logout ",props.infos);
-        props.delete();
+       // props.delete();
       } catch(e) {
         console.log(e);
       }
