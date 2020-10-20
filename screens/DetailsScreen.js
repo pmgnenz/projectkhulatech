@@ -3,13 +3,15 @@ import { View, Text, Button, StyleSheet,FlatList, ActivityIndicator } from 'reac
 import { ListItem, Icon,List, SearchBar } from 'react-native-elements'
 import { connect } from 'react-redux';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
+import { 
+  NavigationContainer, 
+} from '@react-navigation/native';
 const Tab = createMaterialTopTabNavigator();
 const DetailsScreen = (props,{navigation}) => {
 
   const [data, setData] = React.useState({
-    Token: '9fb192dc-423b-45c9-b55b-94166b66c9f0',//props.infos.userToken || 0,
-    loading: [false,false,false],
+      Token: '9fb192dc-423b-45c9-b55b-94166b66c9f0',  //props.infos.userToken || 0,
+      loading: [false,false,false],
       dataerrors: [],
       datawarnings: [],
       datainfos: [],
@@ -27,10 +29,11 @@ useEffect(() => {
 makeRemoteRequest = () => {
   //const { page, seed } = this.state;
   
-  done= false;
+  
   setData({
     ...data,
-    loading: [true,true,true]
+    loading: [true,true,true],
+    done: false
   });
   var categories = ["error","warning","info"];
   for(let i = 0; i < 3; i++){
@@ -49,16 +52,17 @@ makeRemoteRequest = () => {
       setData({
         ...data,
         dataerrors: res.items,
-        error: [res.error || null,error[1],error[2]],
+        error: [res.error || null,data.error[1],data.error[2]],
         loading: [false,data.loading[1],data.loading[2]],
         refreshing: [false,data.refreshing[1],data.refreshing[2]]
       });}
+      
       if(categories[i] == "warning")
      {
       setData({
         ...data,
         datawarnings: res.items,
-        error:[error[0],res.error || null,error[2]] ,
+        error:[data.error[0],res.error || null,data.error[2]] ,
         loading: [data.loading[0],false,data.loading[2]],
         refreshing:[data.refreshing[0], false,data.refreshing[2]]
       });}
@@ -67,7 +71,7 @@ makeRemoteRequest = () => {
       setData({
         ...data,
         datainfos: res.items,
-        error: [error[0],error[1],res.error || null],
+        error: [data.error[0],data.error[1],res.error || null],
         loading: [data.loading[0],data.loading[1],false],
         refreshing:[data.refreshing[0],data.refreshing[1],false]
       });}
@@ -76,17 +80,17 @@ makeRemoteRequest = () => {
     .catch(err => {
       if(i = 0)
       {
-      setData({ ...data,error:[err,error[1],error[2]], loading:[false,loading[1],loading[2]] });
+      setData({ ...data,error:[err,data.error[1],data.error[2]], loading:[false,data.loading[1],data.loading[2]] });
       console.log(error);
       }
       if(i = 1)
       {
-      setData({ ...data,error:[error[0],err,error[2]], loading:[loading[0],false,loading[2]] });
+      setData({ ...data,error:[data.error[0],err,data.error[2]], loading:[data.loading[0],false,data.loading[2]] });
       console.log(error);
       }
       if(i = 2)
       {
-      setData({ ...data,error:[,error[0],error[1],err], loading:[loading[0],loading[1],false] });
+      setData({ ...data,error:[data.error[0],data.error[1],err], loading:[data.loading[0],data.loading[1],false] });
       console.log(error);
       }
     });
@@ -121,7 +125,7 @@ function errorScreen() {
           keyExtractor={item => item.id}
           ItemSeparatorComponent={renderSeparator}
           ListHeaderComponent={renderHeader}
-          onRefresh={handleRefresh}
+          onRefresh= {handleRefresh}
           refreshing={data.refreshing[0]}
         />
    
@@ -145,7 +149,7 @@ function warningScreen() {
           ItemSeparatorComponent={renderSeparator}
           ListHeaderComponent={renderHeader}
           onRefresh={handleRefresh}
-          refreshing={data.refreshing[0]}
+          refreshing={data.refreshing[1]}
         />
    
   );
@@ -167,7 +171,7 @@ function infoScreen() {
           ItemSeparatorComponent={renderSeparator}
           ListHeaderComponent={renderHeader}
           onRefresh={handleRefresh}
-          refreshing={data.refreshing[0]}
+          refreshing={data.refreshing[2]}
         />
    
   );
@@ -193,13 +197,13 @@ renderHeader = () => {
 //console.log("ggggggggggggggggg", data.dataerrors);
 return (
         
-  <NavigationContainer>
+  
   <Tab.Navigator>
     <Tab.Screen name="error" component={errorScreen} />
     <Tab.Screen name="warnings" component={warningScreen} />
     <Tab.Screen name="infos" component={infoScreen} />
   </Tab.Navigator>
-</NavigationContainer>
+ 
         /*<FlatList
           data={data.dataerrors}
           renderItem={({ item }) => (
@@ -245,7 +249,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    
+
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(DetailsScreen);
