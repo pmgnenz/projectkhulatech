@@ -27,7 +27,6 @@ import MainTabScreen from './screens/MainTabScreen';
 import SupportScreen from './screens/SupportScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import BookmarkScreen from './screens/BookmarkScreen';
-
 import { AuthContext } from './components/context';
 
 import RootStackScreen from './screens/RootStackScreen';
@@ -45,6 +44,8 @@ const App = (props) => {
 
   const initialLoginState = {
     isLoading: true,
+    firstname: null,
+    secondname: null,
     userName: null,
     userToken: null,
   };
@@ -108,16 +109,29 @@ const App = (props) => {
   const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
 
   const authContext = React.useMemo(() => ({
-    signIn: async(UserT,UserN) => {
+    signIn: async(UserT,UserTid,UserN,id,email,firstn,lastn) => {
       // setUserToken('fgkj');
       // setIsLoading(false);
-      console.log("USERRRRRRR", UserT);
-      console.log(props.infos);
-      const userToken = String(UserT);
-      const userName = UserN;
+      console.log("USERRRRRRR", UserT)
+      console.log("USERRRRRRR2", UserN)
+      console.log(UserTid)
+      console.log(props.infos)
+      const userToken = String(UserT)
+      const userTokenid = UserTid
+      const userName = UserN
+      const userid = id
+      const useremail = email
+      const firstname = firstn
+      const lastname  = lastn
       
       try {
-        await AsyncStorage.setItem('userToken', userToken);
+        await AsyncStorage.setItem('userToken',userToken );
+        await AsyncStorage.setItem('userTokenid', userTokenid);
+        await AsyncStorage.setItem('userName', userName);
+        await AsyncStorage.setItem('userid', userid);
+        await AsyncStorage.setItem('useremail', useremail);
+        await AsyncStorage.setItem('firstname', firstname);
+        await AsyncStorage.setItem('lastname', lastname);
       } catch(e) {
         console.log(e);
       }
@@ -128,9 +142,24 @@ const App = (props) => {
     signOut: async() => {
       // setUserToken(null);
       // setIsLoading(false);
+      const xauth = await AsyncStorage.getItem('userToken')
+      const authtokenid = await AsyncStorage.getItem('userTokenid')
       console.log("logout ",props.infos);
       try {
-        await AsyncStorage.removeItem('userToken');
+        await fetch(`https://khulatechsolutions.unmsapp.com/nms/api/v2.1/token/${authtokenid}`,{
+                    method:'DELETE',
+                    headers:{
+                        accept:'application/json',
+                        'x-auth-token': xauth
+                    }
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+        await AsyncStorage.clear();
         console.log("logout ",props.infos);
        // props.delete();
       } catch(e) {
@@ -170,6 +199,9 @@ const App = (props) => {
     );
   }
   return (
+   // <Provider store={store}>
+     // <PersistGate loading={null} persistor={persistor}>
+
     <PaperProvider theme={theme}>
     <AuthContext.Provider value={authContext}>
     <NavigationContainer theme={theme}>
@@ -187,6 +219,8 @@ const App = (props) => {
     </NavigationContainer>
     </AuthContext.Provider>
     </PaperProvider>
+   // </PersistGate>
+   // </Provider>
   );
 }
 const mapStateToProps = (state) => {

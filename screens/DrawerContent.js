@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect }from 'react';
 import { View, StyleSheet } from 'react-native';
 import {
     useTheme,
@@ -15,29 +15,41 @@ import {
     DrawerContentScrollView,
     DrawerItem
 } from '@react-navigation/drawer';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import{ AuthContext } from '../components/context';
-import Users2 from '../model/users2';
-const mapStateToProps = (state) => {
-    console.log(state);
-    return {
-      infos: state.appReducer.infoList
-    }
-  } 
    
 export function DrawerContent(props) {
-    //connect(mapStateToProps)(DrawerContent);
-    
-   // connect(mapStateToProps)(DrawerContent);
-   // console.log("prop1 " ,prop.infos);
-    //console.log("prop2", props.infos);
-    //const wan = props.infos["firstname"]  ;
-    const paperTheme = useTheme();
-    const wan = props.infos;
-    const { signOut, toggleTheme } = React.useContext(AuthContext);
 
+    const [data, setData] = React.useState({
+        firstname: '',
+        secondname: '',     
+    });
+    const paperTheme = useTheme();
+    const names = async () => 
+    {
+        try {
+            const Fname =  await AsyncStorage.getItem('firstname')
+            const Sname = await AsyncStorage.getItem('lastname')
+            if (Fname !== null && Sname !== null) {
+                setData({
+                    ...data,
+                    firstname: Fname,
+                    secondname: Sname       
+                });
+            }
+          } catch (e) {
+            alert('Failed to fetch the data from storage')
+          }
+    }   
+    const { signOut, toggleTheme } = React.useContext(AuthContext);
+    useEffect(() => {
+        names()
+      }, [])
+    //  names()
+    const fullname = data.firstname + " " + data.secondname 
+   // console.log(fullname)
     return(
         <View style={{flex:1}}>
             <DrawerContentScrollView {...props}>
@@ -51,7 +63,7 @@ export function DrawerContent(props) {
                                 size={50}
                             />
                             <View style={{marginLeft:15, flexDirection:'column'}}>
-                            <Title style={styles.title} > {wan} </Title>
+                            <Title style={styles.title} > {fullname} </Title>
                 
                             </View>
                         </View>
@@ -97,7 +109,7 @@ export function DrawerContent(props) {
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
-                                name="settings-outline" 
+                                name="settings-helper" 
                                 color={color}
                                 size={size}
                                 />

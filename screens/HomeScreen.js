@@ -1,8 +1,8 @@
-import React from 'react';
+import React ,{ useEffect }from 'react';
 import { View, Text, Button, StyleSheet, StatusBar } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { connect } from 'react-redux';
-import CButton from './Cbutton'; 
+import { AnimatedGaugeProgress, GaugeProgress } from 'react-native-simple-gauge'; 
 
 const HomeScreen = (props,{navigation}) => {
 
@@ -11,10 +11,10 @@ const HomeScreen = (props,{navigation}) => {
   const theme = useTheme();
   console.log("okeeeen", props.infos1);
   const [data, setData] = React.useState({
-  userToken: 0, //'9fb192dc-423b-45c9-b55b-94166b66c9f0',//props.infos1[0].userToken,
+  userToken: '9fb192dc-423b-45c9-b55b-94166b66c9f0',//props.infos1[0].userToken,
   outages: 0,
-  unassigned: 7,
-  active: 40,
+  unassigned: 0,
+  active: 0,
   allClients: 0,
   liveclient: 0,
   allsites: 0,
@@ -59,7 +59,7 @@ const HomeScreen = (props,{navigation}) => {
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    'x-auth-token': props.infos1[0].userToken
+    'x-auth-token': data.userToken
   }
   }).then(processResponse) 
   .then(res => {
@@ -71,7 +71,11 @@ const HomeScreen = (props,{navigation}) => {
     console.error(error);
   });
 };
-getApiAsync();
+useEffect(() => {
+  getApiAsync();
+}, []);
+
+
 
 
 
@@ -104,14 +108,32 @@ getApiAsync();
                 <Button title={data.active +"  \n active"}/>
               </View>
           </View>
-       
-       <View style={styles.buttonContainer}>
-      <Button
-        style={styles.addButton}
-        title="Go to details screen"
-        onPress={() => navigation.navigate("Details")}
-      />
-      </View>
+          
+        <View style={styles.gaugeBottom}>
+          <View style={styles.rowItem}>
+            <AnimatedGaugeProgress
+              size={100}
+              width={10}
+              fill={91}
+              //rotation={0}
+              cropDegree={90}
+              tintColor="#4682b4"
+              backgroundColor="#b0c4de"
+              text="hello"
+            />
+          </View>
+          <View style={styles.rowItem}>
+            <AnimatedGaugeProgress
+              size={100}
+              width={10}
+              fill={91}
+              //rotation={0}
+              cropDegree={90}
+              tintColor="#4682b4"
+              backgroundColor="#b0c4de"
+            />
+          </View>
+          </View>
       </View>
     );
 };
@@ -186,5 +208,16 @@ buttons: {
   backgroundColor: 'green',
   width: '40%',
   height: 40
-}
+},
+rowItem: {
+  flex: 1,
+  alignItems: 'center',
+},
+gaugeTop: {
+  padding: 20,
+},
+gaugeBottom: {
+  flexDirection: 'row',
+  paddingTop: 20,
+},
 });

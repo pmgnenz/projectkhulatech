@@ -6,17 +6,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import HomeScreen from './HomeScreen';
-import DetailsScreen from './DetailsScreen';
-import ExploreScreen from './ExploreScreen';
+import NotificationsScreen from './NotificationsScreen';
+import SitesScreen from './SitesScreen';
 import ProfileScreen from './ProfileScreen';
 import BookmarkScreen from './BookmarkScreen';
 import SettingScreen from './SettingsScreen';
 import SupportScreen from './SupportScreen';
 
 const HomeStack = createStackNavigator();
-const DetailsStack = createStackNavigator();
+const NotificationsStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
-const ExploreStack = createStackNavigator();
+const SitesStack = createStackNavigator();
 const BookmarkStack = createStackNavigator();
 const SettingStack = createStackNavigator();
 const SupportStack = createStackNavigator();
@@ -41,7 +41,7 @@ const MainTabScreen = () => (
       />
       <Tab.Screen
         name="Notifications"
-        component={DetailsStackScreen}
+        component={NotificationsStackScreen}
         options={{
           tabBarLabel: 'Updates',
           tabBarColor: '#1f65ff',
@@ -62,10 +62,10 @@ const MainTabScreen = () => (
         }}
       />
       <Tab.Screen
-        name="Explore"
-        component={ExploreStackScreen}
+        name="SitesScreen"
+        component={SitesStackScreen}
         options={{
-          tabBarLabel: 'Explore',
+          tabBarLabel: 'SitesScreen',
           tabBarColor: '#d02860',
           tabBarIcon: ({ color }) => (
             <Icon name="ios-aperture" color={color} size={26} />
@@ -77,7 +77,7 @@ const MainTabScreen = () => (
         name="settings"
         component={SettingStackScreen}
         options={{
-          tabBarLabel: 'Explore',
+          tabBarLabel: 'Settings',
           tabBarColor: '#d02860',
           tabBarIcon: ({ color }) => (
             <Icon name="ios-aperture" color={color} size={26} />
@@ -120,8 +120,8 @@ const HomeStackScreen = ({navigation}) => (
 </HomeStack.Navigator>
 );
 
-const DetailsStackScreen = ({navigation}) => (
-<DetailsStack.Navigator screenOptions={{
+const NotificationsStackScreen = ({navigation}) => (
+<NotificationsStack.Navigator screenOptions={{
         headerStyle: {
         backgroundColor: '#1f65ff',
         },
@@ -130,12 +130,12 @@ const DetailsStackScreen = ({navigation}) => (
         fontWeight: 'bold'
         }
     }}>
-        <DetailsStack.Screen name="Details" component={DetailsScreen} options={{
+        <NotificationsStack.Screen name="Notifications" component={NotificationsScreen} options={{
         headerLeft: () => (
             <Icon.Button name="ios-menu" size={25} backgroundColor="#1f65ff" onPress={() => navigation.openDrawer()}></Icon.Button>
         )
         }} />
-</DetailsStack.Navigator>
+</NotificationsStack.Navigator>
 );
   
 const ProfileStackScreen = ({navigation}) => (
@@ -155,8 +155,8 @@ const ProfileStackScreen = ({navigation}) => (
           }} />
   </ProfileStack.Navigator>
   );
-  const ExploreStackScreen = ({navigation}) => (
-    <ExploreStack.Navigator screenOptions={{
+  const SitesStackScreen = ({navigation}) => (
+    <SitesStack.Navigator screenOptions={{
             headerStyle: {
             backgroundColor: '#d02860',
             },
@@ -165,12 +165,12 @@ const ProfileStackScreen = ({navigation}) => (
             fontWeight: 'bold'
             }
         }}>
-            <ExploreStack.Screen name="Explore" component={ExploreScreen} options={{
+            <SitesStack.Screen name="SitesScreen" component={SitesScreen} options={{
             headerLeft: () => (
                 <Icon.Button name="ios-menu" size={25} backgroundColor="#d02860" onPress={() => navigation.openDrawer()}></Icon.Button>
             )
             }} />
-    </ExploreStack.Navigator>
+    </SitesStack.Navigator>
     );
     const BookmarkStackScreen = ({navigation}) => (
       <BookmarkStack.Navigator name ="Bookmark" screenOptions={{

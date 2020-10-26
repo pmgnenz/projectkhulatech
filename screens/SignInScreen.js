@@ -15,7 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
 import { useTheme } from 'react-native-paper';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import { AuthContext } from '../components/context';
 import { connect } from 'react-redux';
 import { addInfo,deleteInfo } from '../src/actions/infos';
@@ -26,6 +26,8 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
     const [data, setData] = React.useState({
         username: '',
         password: '',
+        authtoken: '',
+        authtokenID: '',
         dataall: '',
         check_textInputChange: false,
         secureTextEntry: true,
@@ -94,6 +96,7 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
 
     function  processResponse(response) {
         const statusCode = response.status;
+        console.log(statusCode)
         const xauth = response.headers.get("x-auth-token");
         const data1 =  response.json();
         return  Promise.all([statusCode, data1,xauth]).then(res => ({
@@ -107,13 +110,17 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
       //const dta;
     
     const loginHandle = async(userName, passWord) => {
+        token = ""
+       // console.log("ffffffffffffffffffffffffffffff")
+        tokenid = ""
         if ( data.username.length == 0 || data.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
                 {text: 'Okay'}
             ]);
             return;
         }
-     await fetch("https://khulatechsolutions.unmsapp.com/nms/api/v2.1/user/login",{
+        //console.log(userName + " " + passWord)
+    await fetch("https://khulatechsolutions.unmsapp.com/nms/api/v2.1/user/login",{
             method:'POST',
             headers:{
                 accept:'application/json',
@@ -127,30 +134,53 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
             })
             })
         .then(processResponse)
-        .then(res =>  {
+        .then(async res =>  {
                 const { statusCode, data1,xauth } = res;
-                console.log("statusCode ",statusCode);
-                //stscode = statusCode;
+               // console.log("statusCode ",statusCode);
                 props.delete();
+                await fetch("https://khulatechsolutions.unmsapp.com/nms/api/v2.1/token",{
+                    method:'POST',
+                    headers:{
+                        accept:'application/json',
+                        'Content-Type': 'application/json',
+                        'x-auth-token': xauth
+                    },
+                    body: JSON.stringify({
+                        'name': userName,
+                        'meta': null,
+                    })
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        token = res.token
+                        tokenid = res.id
+                        
+                    })
+                    .catch((error) => {
+                        console.error("error here" + error);
+                    });
+
                 if (statusCode == 200)
                 {
-                console.log("data",data1);
-                props.add(data1["id"],data1["email"],userName,data1["firstName"],data1["lastName"],passWord,xauth)
-                console.log("xauth",xauth);
-                console.log("user2",props.infos);
-                console.log("foundusergggggg");
-                const foundUser = props.infos;
-                console.log("founduser  ", foundUser);
-                signIn(xauth,userName);
+                //console.log("data",data1);
+
+                //props.add(data1["id"],data1["email"],userName,data1["firstName"],data1["lastName"],passWord,data.authtoken, data.authtokenID)
+               // console.log("xauth",xauth);
+               // console.log("user2",props.infos);
+                //console.log("foundusergggggg" , tokenid,  " ",data1["id"]);
+                //const foundUser = props.infos;
+                //console.log("founduser  ", data1);
                 
+                signIn(token,tokenid,userName,data1["id"],data1["email"],data1["firstName"],data1["lastName"]);               
                 } else {
                     Alert.alert('Invalid User!', 'Username or password is incorrect.', [
                     {text: 'Okay'}
                     ]);
                     return;
                 }
+            
         }).catch((error) => {
-            console.error(error);
+            console.error("errror no 2 " + error);
         });
         
     } 
@@ -297,9 +327,10 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = (dispatch) => {
     return {
      delete: () => dispatch(deleteInfo()),
-      add: (id1,email1,username1,firstname1,secondname1,
-        password1, userToken1) => dispatch(addInfo(id1,email1,username1,firstname1,secondname1,
-            password1, userToken1))
+    /*  add: (id1,email1,username1,firstname1,secondname1,
+        password1, userToken1,userToken1id) => dispatch(addInfo(id1,email1,username1,firstname1,secondname1,
+            password1, userToken1,userToken1id))
+    */
 
     }
   }
