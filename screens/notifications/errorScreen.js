@@ -3,9 +3,7 @@ import { View, Text, Button, StyleSheet,FlatList, ActivityIndicator } from 'reac
 import { ListItem, Icon,List, SearchBar } from 'react-native-elements'
 import { connect } from 'react-redux';
 
-
 const errorScreen = (props,{navigation}) => {
-
   const [data, setData] = React.useState({
       Token: '9fb192dc-423b-45c9-b55b-94166b66c9f0',  //props.infos.userToken || 0,
       loading: false,
@@ -17,10 +15,8 @@ const errorScreen = (props,{navigation}) => {
       done: true
 });
 
-
 makeRemoteRequest = () => {
-  //const { page, seed } = this.state; 
- // console.log("useeffectffffssssssssssssssssssssssssssssssssssssssss")
+
   setData({
     ...data,
     loading: true,
@@ -36,7 +32,6 @@ makeRemoteRequest = () => {
     }})
     .then(res => res.json())
     .then(res => {
-     // console.log("res  hhhh", res.items);
       setData({
         ...data,
         datas: res.items,
@@ -45,8 +40,7 @@ makeRemoteRequest = () => {
         refreshing: false
       });       
     })
-    .catch(err => {
-      
+    .catch(err => {    
       setData({ 
           ...data,
           error:err, 

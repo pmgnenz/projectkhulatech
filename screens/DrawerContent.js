@@ -87,24 +87,24 @@ export function DrawerContent(props) {
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
-                                name="account-outline" 
+                                name="notification-clear-all" 
                                 color={color}
                                 size={size}
                                 />
                             )}
-                            label="Profile"
-                            onPress={() => {props.navigation.navigate('Profile')}}
+                            label="Notification"
+                            onPress={() => {props.navigation.navigate('Notifications')}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
-                                name="bookmark-outline" 
+                                name="home-outline" 
                                 color={color}
                                 size={size}
                                 />
                             )}
-                            label="Bookmarks"
-                            onPress={() => {props.navigation.navigate('Bookmark')}}
+                            label="Sites"
+                            onPress={() => {props.navigation.navigate('Sites')}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (

@@ -28,8 +28,7 @@ makeRemoteRequest();
 }, []);
 
 makeRemoteRequest = () => {
-//const { page, seed } = this.state; 
-// console.log("useeffectffffssssssssssssssssssssssssssssssssssssssss")
+
 props.delete()
 setData({
   ...data,
@@ -80,47 +79,6 @@ return (
     options={{ tabBarLabel: 'INACTIVE' }}
   />
 </MaterialTopTabs.Navigator>   
-  /*
-  <Tab.Navigator>
-    <Tab.Screen name="error" component={errorScreen} />
-    <Tab.Screen name="warnings" component={warningScreen} />
-    <Tab.Screen name="infos" component={infoScreen} />
-  </Tab.Navigator>
- */
-        /*<FlatList
-          data={data.dataerrors}
-          renderItem={({ item }) => (
-            <ListItem
-              //roundAvatar
-              title={item.message }
-              subtitle={item.timestamp}
-              //avatar={{ uri: item.picture.thumbnail }}
-              containerStyle={{ borderBottomWidth: 0 }}
-            />
-          )}
-          keyExtractor={item => item.id}
-          ItemSeparatorComponent={renderSeparator}
-          ListHeaderComponent={renderHeader}
-          onRefresh={handleRefresh}
-          refreshing={data.refreshing[0]}
-        />
-   */
-     /* <View style={styles.container}>
-        <Text>Details Screen</Text>
-        <Button
-            title="Go to details screen...again"
-            onPress={() => navigation.push("Details")}
-        />
-        <Button
-            title="Go to home"
-            onPress={() => navigation.navigate("Home")}
-        />
-        <Button
-            title="Go back"
-            onPress={() => navigation.goBack()}
-        />
-      </View>
-      */
     );
 };
 const mapStateToProps = (state) => {

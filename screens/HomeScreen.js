@@ -21,7 +21,6 @@ const HomeScreen = (props,{navigation}) => {
   livesites: 0,
   networkhealth:0,
 });
-  //console.log("okeeeen 22222", props.infos1[0].userToken);
   const getApiAsync = async () => {
     try {
       let response = await fetch(
@@ -33,9 +32,6 @@ const HomeScreen = (props,{navigation}) => {
           'x-auth-token': data.userToken
         }});
       let json = await response.json();
-      console.log( json);
-      console.log("onnnnnnn");
-      //console.log(json.allClients[0].y);
       setData({
         ...data,
         allClients: json.allClients[0].y,
@@ -75,21 +71,6 @@ useEffect(() => {
   getApiAsync();
 }, []);
 
-
-
-
-
-//const stability =() => {
-//  getnetworkinfos();
-//  console.log(getnetworkinfos);
-//  console.log( "whhhhhh" + getnetworkinfos["networkHealth"]);
- //return getnetworkinfos()["networkHealth"][0];
-//}
- //stability();
- const outages = 10;
- const unassigned = 7;
- const active = 40;
-  //console.log(getnetworkinfos);
     return (
       
       <View style={styles.container}>

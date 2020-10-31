@@ -111,7 +111,6 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
     
     const loginHandle = async(userName, passWord) => {
         token = ""
-       // console.log("ffffffffffffffffffffffffffffff")
         tokenid = ""
         if ( data.username.length == 0 || data.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
@@ -120,7 +119,7 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
             return;
         }
         //console.log(userName + " " + passWord)
-    await fetch("https://khulatechsolutions.unmsapp.com/nms/api/v2.1/user/login",{
+         await fetch("https://khulatechsolutions.unmsapp.com/nms/api/v2.1/user/login",{
             method:'POST',
             headers:{
                 accept:'application/json',
@@ -162,14 +161,6 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
 
                 if (statusCode == 200)
                 {
-                //console.log("data",data1);
-
-                //props.add(data1["id"],data1["email"],userName,data1["firstName"],data1["lastName"],passWord,data.authtoken, data.authtokenID)
-               // console.log("xauth",xauth);
-               // console.log("user2",props.infos);
-                //console.log("foundusergggggg" , tokenid,  " ",data1["id"]);
-                //const foundUser = props.infos;
-                //console.log("founduser  ", data1);
                 
                 signIn(token,tokenid,userName,data1["id"],data1["email"],data1["firstName"],data1["lastName"]);               
                 } else {
@@ -186,7 +177,7 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
     } 
     return (
       <View style={styles.container}>
-          <StatusBar backgroundColor='#009387' barStyle="light-content"/>
+          <StatusBar backgroundColor='#129ed9' barStyle="light-content"/>
         <View style={styles.header}>
             <Text style={styles.text_header}>Welcome!</Text>
         </View>
@@ -280,7 +271,7 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
             
           
             <TouchableOpacity>
-                <Text style={{color: '#009387', marginTop:15}}>Forgot password?</Text>
+                <Text style={{color: '#129ed9', marginTop:15}}>Forgot password?</Text>
             </TouchableOpacity>
             <View style={styles.button}>
                 <TouchableOpacity
@@ -288,7 +279,7 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
                     onPress={() => {loginHandle( data.username, data.password )}}
                 >
                 <LinearGradient
-                    colors={['#08d4c4', '#01ab9d']}
+                    colors={['#129ed9', '#01ab9d']}
                     style={styles.signIn}
                 >
                     <Text style={[styles.textSign, {
@@ -339,7 +330,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);
 const styles = StyleSheet.create({
     container: {
       flex: 1, 
-      backgroundColor: '#009387'
+      backgroundColor: '#129ed9'
     },
     header: {
         flex: 1,

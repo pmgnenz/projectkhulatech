@@ -12,9 +12,7 @@ import infoScreen from './notifications/infoScreen';
 import warningScreen from './notifications/warningScreen';
 const MaterialTopTabs = createMaterialTopTabNavigator();
 
-
-
-const NotificationsScreen = ({navigation}) => {
+const NotificationsScreen = ({navigation}) => { 
 return (
   <MaterialTopTabs.Navigator>
   <MaterialTopTabs.Screen

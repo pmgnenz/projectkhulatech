@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-const ProfileScreen = () => {
+const TicketScreen = () => {
     return (
       <View style={styles.container}>
-        <Text>Profile Screen</Text>
+        <Text>ticket Screen</Text>
         <Button
           title="Click Here"
           onPress={() => alert('Button Clicked!')}
@@ -13,7 +13,7 @@ const ProfileScreen = () => {
     );
 };
 
-export default ProfileScreen;
+export default TicketScreen;
 
 const styles = StyleSheet.create({
   container: {
