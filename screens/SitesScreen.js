@@ -97,6 +97,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 export default connect(mapStateToProps,mapDispatchToProps)(SitesScreen);
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1, 

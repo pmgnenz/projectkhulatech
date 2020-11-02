@@ -3,7 +3,8 @@ import { View, Text, Button, StyleSheet,FlatList, ActivityIndicator } from 'reac
 import { ListItem, Icon,List, SearchBar } from 'react-native-elements'
 import { connect } from 'react-redux';
 import { Addsites } from '../../src/actions/infos';
-
+import {Avatar} from 'react-native-paper';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const Disconnected = (props,{navigation}) => {
 
@@ -16,7 +17,8 @@ const Disconnected = (props,{navigation}) => {
       seed: 1,
       error: null,
       refreshing: false,
-      done: true
+      done: true,
+      spinners: true
 });
 setsitedata = () => 
 {
@@ -25,7 +27,8 @@ setsitedata = () =>
 } );
     setData({
         ...data,
-        datas: foundsites
+        datas: foundsites,
+        spinners: false
     })
 }
 
@@ -101,12 +104,23 @@ renderHeader = () => {
 };
 
 return (
+ 
     <FlatList
     data={data.datas}
     renderItem={({ item }) => (
      // console.log("errorScreen", item),
        //avatar={{ uri: item.picture.thumbnail }}
+       
     <ListItem>
+        <Avatar.Image size={24}
+                
+                source= {item.identification.type == "site" ? 
+                 require('../../assets/redsite.png') 
+              : 
+                require('../../assets/smallhousered.png')
+             
+            } 
+/>
         <ListItem.Content style={containerStyle={ borderBottomWidth: 0 }}>       
             <ListItem.Title  > {item.identification.name  }</ListItem.Title> 
             <ListItem.Subtitle > {item.description.address} </ListItem.Subtitle>    
@@ -121,6 +135,7 @@ return (
     onRefresh= {handleRefresh}
     refreshing={data.refreshing}
   />
+
     );
 };
 const mapStateToProps = (state) => {

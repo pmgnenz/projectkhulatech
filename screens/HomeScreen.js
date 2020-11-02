@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet, StatusBar } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { AnimatedGaugeProgress, GaugeProgress } from 'react-native-simple-gauge'; 
-
+import Spinner from 'react-native-loading-spinner-overlay';
 const HomeScreen = (props,{navigation}) => {
 
   const { colors } = useTheme();
@@ -20,6 +20,7 @@ const HomeScreen = (props,{navigation}) => {
   allsites: 0,
   livesites: 0,
   networkhealth:0,
+  spinners: true
 });
   const getApiAsync = async () => {
     try {
@@ -40,6 +41,7 @@ const HomeScreen = (props,{navigation}) => {
         livesites: json.liveSites[0].y,
         liveclient: json.liveClients[0].y,
         networkhealth:Math.round ((json.networkHealth[0].y)*100),
+        spinners: false
     });
     //console.log(data.allClients);
       console.log("ooooonn2");
@@ -74,7 +76,12 @@ useEffect(() => {
     return (
       
       <View style={styles.container}>
-          
+        
+        <Spinner
+          visible={data.spinners}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
         <StatusBar barStyle= { theme.dark ? "light-content" : "dark-content" }/>
         <Text style={styles.network}>{data.networkhealth + "%"}</Text>
         <Text style={{color: colors.text}}>network stability</Text>

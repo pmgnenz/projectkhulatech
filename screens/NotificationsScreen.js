@@ -10,10 +10,13 @@ const Tab = createMaterialTopTabNavigator();
 import errorScreen from './notifications/errorScreen';
 import infoScreen from './notifications/infoScreen';
 import warningScreen from './notifications/warningScreen';
+import Spinner from 'react-native-loading-spinner-overlay';
 const MaterialTopTabs = createMaterialTopTabNavigator();
 
 const NotificationsScreen = ({navigation}) => { 
+  
 return (
+  
   <MaterialTopTabs.Navigator>
   <MaterialTopTabs.Screen
     name="Errors"
@@ -31,7 +34,7 @@ return (
     options={{ tabBarLabel: 'INFOS' }}
   />
 </MaterialTopTabs.Navigator>   
-  
+
     );
 };
 const mapStateToProps = (state) => {
@@ -54,4 +57,8 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     justifyContent: 'center'
   },
+  spinnerTextStyle: {
+    color: '#FFF'
+  },
+
 });

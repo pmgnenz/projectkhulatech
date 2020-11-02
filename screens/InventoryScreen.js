@@ -86,7 +86,9 @@ const InventoryScreen = (props,{navigation}) => {
           for(let i = 0; i < data.inventory.length; i++){
             for(let j = 0; j < obj.length; j++){
               temp= data.inventory[i]
-            if(data.inventory[i].name ==  obj[j].name && obj[j].status == "stock")
+              wen = data.inventory[i].name
+              wen2 = obj[j].name 
+            if(data.inventory[i].id ==  obj[j].product_id && obj[j].status == "stock")
             {
 
               count = count+1                  
@@ -166,10 +168,10 @@ const InventoryScreen = (props,{navigation}) => {
        // console.log("errorScreen", item),
          //avatar={{ uri: item.picture.thumbnail }}
         <ListItem>
-            <ListItem.Content style={{borderBottomWidth: 0} }>
-          
+           
+          <ListItem.Content style={{borderBottomWidth: 0} }>
           <ListItem.Title  > {item.name  }</ListItem.Title> 
-          <ListItem.Subtitle > {item.count} </ListItem.Subtitle>
+      <ListItem.Subtitle > in-stock: {item.count}                         Price: { item.sold_price}</ListItem.Subtitle>
         
           </ListItem.Content>
       </ListItem>

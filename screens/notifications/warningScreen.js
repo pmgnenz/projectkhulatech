@@ -2,8 +2,8 @@ import React,{ useEffect } from 'react';
 import { View, Text, Button, StyleSheet,FlatList, ActivityIndicator } from 'react-native';
 import { ListItem, Icon,List, SearchBar } from 'react-native-elements'
 import { connect } from 'react-redux';
-
-
+import {Avatar} from 'react-native-paper';
+import Spinner from 'react-native-loading-spinner-overlay';
 const warningScreen = ({navigation}) => {
 
   const [data, setData] = React.useState({
@@ -14,7 +14,8 @@ const warningScreen = ({navigation}) => {
       seed: 1,
       error: null,
       refreshing: false,
-      done: true
+      done: true,
+      spinners: true
 });
 
 
@@ -42,7 +43,8 @@ makeRemoteRequest = () => {
         datas: res.items,
         error: res.error || null,
         loading: false,
-        refreshing: false
+        refreshing: false,
+        spinners: false
       });       
     })
     .catch(err => {
@@ -95,12 +97,22 @@ renderHeader = () => {
 //componentDidMount();
 //console.log("ggggggggggggggggg", data.dataerrors);
 return (
+  <View>
+  <Spinner
+          visible={data.spinners}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
     <FlatList
     data={data.datas}
     renderItem={({ item }) => (
      // console.log("errorScreen", item),
        //avatar={{ uri: item.picture.thumbnail }}
       <ListItem>
+         <Avatar.Image size={24}
+                
+                source= {require('../../assets/orangedish.png')} 
+/>
           <ListItem.Content style={containerStyle={ borderBottomWidth: 0 }}>
         
         
@@ -118,6 +130,7 @@ return (
     onRefresh= {handleRefresh}
     refreshing={data.refreshing}
   />
+  </View>
     );
 };
 const mapStateToProps = (state) => {
