@@ -25,10 +25,10 @@ import { DrawerContent } from './screens/DrawerContent';
 import { connect } from 'react-redux';
 import MainTabScreen from './screens/MainTabScreen';
 import SupportScreen from './screens/SupportScreen';
-import StockScreen from './screens/StockScreen';
+import StockScreen from './screens/InventoryScreen';
 import BookmarkScreen from './screens/BookmarkScreen';
 import { AuthContext } from './components/context';
-
+import BackgroundTimer from 'react-native-background-timer';
 import RootStackScreen from './screens/RootStackScreen';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -143,6 +143,7 @@ const App = (props) => {
       // setUserToken(null);
       // setIsLoading(false);
       const xauth = await AsyncStorage.getItem('userToken')
+      BackgroundTimer.stopBackgroundTimer();
       const authtokenid = await AsyncStorage.getItem('userTokenid')
       console.log("logout ",props.infos);
       try {

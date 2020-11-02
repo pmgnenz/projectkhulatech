@@ -13,7 +13,7 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-
+import { CommonActions } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AuthContext } from '../components/context';
@@ -58,7 +58,7 @@ const SignInScreenSplynx  = (props,{navigation})  => { //extends componenet add
     }
 
     const handlePasswordChange = (val) => {
-        if( val.trim().length >= 8 ) {
+        if( val.trim().length >= 4 ) {
             setData({
                 ...data,
                 password: val,
@@ -110,8 +110,6 @@ const SignInScreenSplynx  = (props,{navigation})  => { //extends componenet add
       //const dta;
     
     const loginHandle = async(userName, passWord) => {
-        token = ""
-        tokenid = ""
         if ( data.username.length == 0 || data.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
                 {text: 'Okay'}
@@ -119,49 +117,55 @@ const SignInScreenSplynx  = (props,{navigation})  => { //extends componenet add
             return;
         }
         //console.log(userName + " " + passWord)
-         await fetch("http://demo.splynx.com/api/2.0/admin/auth/tokens",{
-            method:'POST',
-            headers:{
-                accept:'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                auth_type: "admin",
-                login: userName,
-                password: passWord,
-            })
-            })
-        .then(res => res.json())
-        .then(async res =>  {
-                props.delete();
-                statuscode = res.status
-                if (statusCode == 200)
-                {
-                    try {
-                        await AsyncStorage.setItem('splynxtoken', res.access_token );
-                        
-                      } catch(e) {
-                        console.log(e);
-                      } 
-                      navigation.navigate('SigninScreen')             
-                } else {
-                    Alert.alert('Invalid User!', 'Username or password is incorrect.', [
-                    {text: 'Okay'}
-                    ]);
-                    return;
-                }
-                
-            
-        }).catch((error) => {
-            console.error("errror no 2 " + error);
-        });
+        var request = new XMLHttpRequest();
+
+        request.open('POST', 'https://radius.khulatechsolutions.co.za/api/2.0/admin/auth/tokens');
         
+        request.setRequestHeader('Content-Type', 'application/json');
+        
+        request.onreadystatechange = async () =>{
+          if (request.readyState === 4) {
+            console.log('Status:', request.status);
+            console.log('Headers:', request.getAllResponseHeaders());
+            console.log('Body:', request.responseText);
+            var obj = JSON.parse(request.responseText);
+            //console.log('Body   hhhh:', obj["access_token"]);
+            if(request.status ==201)
+            {
+                try {
+                    body = request.responseText
+                    await AsyncStorage.setItem('splynxtoken', obj["access_token"]);
+                    await AsyncStorage.setItem('refresh_token', obj["refresh_token"]);
+                    await AsyncStorage.setItem('expiration', stringify(obj["access_token_expiration"]));
+                  } catch(e) {
+                    console.log(e);
+                  } 
+                 props.navigation.navigate('SignInScreen')   
+                  
+            }
+            else {
+                Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+                {text: 'Okay'}
+                ]);
+                return;
+            }
+          }
+        };
+        
+        var body = {
+          'auth_type': 'admin',
+          'login': userName,
+          'password': passWord
+        };
+        
+        request.send(JSON.stringify(body));
+               
     } 
     return (
       <View style={styles.container}>
           <StatusBar backgroundColor='#129ed9' barStyle="light-content"/>
         <View style={styles.header}>
-            <Text style={styles.text_header}>Welcome!</Text>
+            <Text style={styles.text_header}>Welcome  spl!</Text>
         </View>
         <Animatable.View 
             animation="fadeInUpBig"
@@ -293,13 +297,13 @@ const SignInScreenSplynx  = (props,{navigation})  => { //extends componenet add
 const mapStateToProps = (state) => {
     console.log(state);
     return {
-      infos: state.appReducer.infoList
+      //infos: state.appReducer.infoList
     }
   }
   
   const mapDispatchToProps = (dispatch) => {
     return {
-     delete: () => dispatch(deleteInfo()),
+     //delete: () => dispatch(deleteInfo()),
     /*  add: (id1,email1,username1,firstname1,secondname1,
         password1, userToken1,userToken1id) => dispatch(addInfo(id1,email1,username1,firstname1,secondname1,
             password1, userToken1,userToken1id))

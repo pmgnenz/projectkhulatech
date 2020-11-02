@@ -29,7 +29,7 @@ makeRemoteRequest();
 
 makeRemoteRequest = () => {
 
-props.delete()
+//props.delete()
 setData({
   ...data,
   loading: true,

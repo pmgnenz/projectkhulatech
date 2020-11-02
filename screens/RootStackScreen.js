@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import SplashScreen from './SplashScreen';
 import SignInScreen from './SignInScreen';
-import SignInScreenSplynx from './SignInScreenSplynx';
+import SignInScreenSplynx from './SigninScreenSplynx';
 
 const RootStack = createStackNavigator();
 

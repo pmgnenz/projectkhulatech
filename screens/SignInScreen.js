@@ -108,10 +108,10 @@ const SignInScreen  = (props,{navigation})  => { //extends componenet add
       //const [dtas, setDtas] = useState([]);
       
       //const dta;
-    
+      token = ""
+      tokenid = ""
     const loginHandle = async(userName, passWord) => {
-        token = ""
-        tokenid = ""
+        
         if ( data.username.length == 0 || data.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
                 {text: 'Okay'}

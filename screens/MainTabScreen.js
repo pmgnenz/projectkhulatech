@@ -6,17 +6,13 @@ import HomeScreen from './HomeScreen';
 import NotificationsScreen from './NotificationsScreen';
 import SitesScreen from './SitesScreen';
 import TicketScreen from './TicketScreen';
-import BookmarkScreen from './BookmarkScreen';
-import StockScreen from './StockScreen';
-import SupportScreen from './SupportScreen';
+import InventoryScreen from './InventoryScreen';
 
 const HomeStack = createStackNavigator();
 const NotificationsStack = createStackNavigator();
 const TicketStack = createStackNavigator();
 const SitesStack = createStackNavigator();
-const BookmarkStack = createStackNavigator();
-const StockStack = createStackNavigator();
-const SupportStack = createStackNavigator();
+const InventoryStack = createStackNavigator();
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -72,10 +68,10 @@ const MainTabScreen = () => (
      
       
       <Tab.Screen
-        name="Stock"
-        component={StockStackScreen}
+        name="Inventory"
+        component={InventoryStackScreen}
         options={{
-          tabBarLabel: 'Stocks',
+          tabBarLabel: 'Inventory',
           tabBarColor: '#129ed9',
           tabBarIcon: ({ color }) => (
             <Icon name="ios-aperture" color={color} size={26} />
@@ -159,25 +155,9 @@ const TicketStackScreen = ({navigation}) => (
             }} />
     </SitesStack.Navigator>
     );
-    const BookmarkStackScreen = ({navigation}) => (
-      <BookmarkStack.Navigator name ="Bookmark" screenOptions={{
-              headerStyle: {
-              backgroundColor: '#d02860',
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-              fontWeight: 'bold'
-              }
-          }}>
-              <BookmarkStack.Screen name="Bookmark" component={BookmarkScreen} options={{
-              headerLeft: () => (
-                  <Icon.Button name="ios-menu" size={25} backgroundColor="#d02860" onPress={() => navigation.openDrawer()}></Icon.Button>
-              )
-              }} />
-      </BookmarkStack.Navigator>
-    );
-    const StockStackScreen = ({navigation}) => (
-      <StockStack.Navigator screenOptions={{
+    
+    const InventoryStackScreen = ({navigation}) => (
+      <InventoryStack.Navigator screenOptions={{
               headerStyle: {
               backgroundColor: '#129ed9',
               },
@@ -186,26 +166,11 @@ const TicketStackScreen = ({navigation}) => (
               fontWeight: 'bold'
               }
           }}>
-              <StockStack.Screen name="Stock" component={StockScreen} options={{
+              <InventoryStack.Screen name="Inventory" component={InventoryScreen} options={{
               headerLeft: () => (
                   <Icon.Button name="ios-menu" size={25} backgroundColor="#129ed9" onPress={() => navigation.openDrawer()}></Icon.Button>
               )
               }} />
-      </StockStack.Navigator>
+      </InventoryStack.Navigator>
     );
-    const SupportStackScreen = ({navigation}) => (
-      <SupportStack.Navigator screenOptions={{
-              headerStyle: {
-              backgroundColor: '#d02860',
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-              fontWeight: 'bold'
-              }
-          }}>
-              <SupportStack.Screen name="Support" component={SupportScreen} options={{
-              headerLeft: () => (
-                  <Icon.Button name="ios-menu" size={25} backgroundColor="#d02860" onPress={() => navigation.openDrawer()}></Icon.Button>
-              )
-              }} />
-      </SupportStack.Navigator>);
+   
